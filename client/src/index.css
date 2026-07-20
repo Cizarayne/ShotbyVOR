@@ -31,6 +31,13 @@
   --font-chicle: "Chicle", cursive;
   --font-metal-mania: "Metal Mania", cursive;
 }
+/* index.css or App.css */
+html, body {
+  background-color: #000000; /* or #020617 for slate-950 */
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
 
 @import "tailwindcss";
 

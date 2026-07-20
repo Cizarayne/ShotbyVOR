@@ -185,7 +185,7 @@ ${formData.message}
         <section className="pt-20 pb-16 px-6 md:px-12 max-w-7xl mx-auto">
           <div className="space-y-6">
             <p className="text-violet-400 font-medium tracking-widest uppercase text-sm">
-              Get in Touch
+            
             </p>
             <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
               Let's Create Something{" "}

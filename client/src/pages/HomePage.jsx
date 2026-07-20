@@ -1,3 +1,4 @@
+// HomePage.jsx
 import Section from "../components/Section";
 
 const featuredProjects = [
@@ -8,7 +9,8 @@ const featuredProjects = [
 
 export default function HomePage() {
   return (
-    <div className="h-screen w-full relative overflow-hidden flex flex-col justify-end lg:justify-center p-6 sm:p-12 lg:p-20 xl:p-24">
+    // ADJUSTED: Switched 'h-screen' to 'min-h-screen sm:h-screen' so smaller screens like iPhone SE can scroll safely
+    <div className="min-h-screen sm:h-screen w-full relative overflow-x-hidden flex flex-col justify-end lg:justify-center p-5 sm:p-12 lg:p-20 xl:p-24 pt-28 sm:pt-32 lg:pt-20 pb-8 sm:pb-12">
       {/* Background Video Layer */}
       <video
         className="absolute inset-0 h-full w-full object-cover"
@@ -20,36 +22,38 @@ export default function HomePage() {
       />
 
       {/* Ambient Cinematic Overlay */}
-      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/45 to-black/20" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/50 to-black/30" />
 
       {/* Text Content */}
-      <div className="font-fjorden relative z-10 w-full max-w-7xl mx-auto flex flex-col gap-10">
+      <div className="font-fjorden relative z-10 w-full max-w-7xl mx-auto flex flex-col gap-5 sm:gap-8 lg:gap-10">
         <Section
           subtitle="Videography Portfolio"
           title="Crafting cinematic stories for bold brands and unforgettable moments."
           accent
         >
-          <p className="font-serif text-white/80 max-w-2xl text-base sm:text-lg leading-relaxed mt-4">
+          <p className="font-serif text-white/80 max-w-2xl text-sm sm:text-base lg:text-lg leading-relaxed mt-2 sm:mt-4">
             ShotbyVOR brings a sharp eye for movement, light, and emotion into
             every frame. From weddings to campaigns, each film is shaped to feel
             powerful, polished, and personal.
           </p>
-          <div className="flex flex-wrap gap-4 pt-6">
+
+          {/* Action Buttons */}
+          <div className="flex flex-wrap gap-2.5 sm:gap-4 pt-4 sm:pt-6">
             <a
               href="/projects"
-              className="font-serif px-6 py-2.5 bg-white text-black font-semibold rounded-full transition hover:bg-violet-100 hover:text-violet-700 hover:scale-105"
+              className="font-serif px-4 py-2 sm:px-6 sm:py-2.5 bg-white text-black text-xs sm:text-sm font-semibold rounded-full transition hover:bg-violet-100 hover:text-violet-700 hover:scale-105"
             >
               Explore Projects
             </a>
             <a
               href="/highlights"
-              className="font-serif px-6 py-2.5 bg-white text-black font-semibold rounded-full transition hover:bg-violet-100 hover:text-violet-700 hover:scale-105"
+              className="font-serif px-4 py-2 sm:px-6 sm:py-2.5 bg-white text-black text-xs sm:text-sm font-semibold rounded-full transition hover:bg-violet-100 hover:text-violet-700 hover:scale-105"
             >
               Explore Highlights
             </a>
             <a
               href="/contact"
-              className="font-serif px-6 py-2.5 bg-white text-black font-semibold rounded-full transition hover:bg-violet-100 hover:text-violet-700 hover:scale-105"
+              className="font-serif px-4 py-2 sm:px-6 sm:py-2.5 bg-white text-black text-xs sm:text-sm font-semibold rounded-full transition hover:bg-violet-100 hover:text-violet-700 hover:scale-105"
             >
               Let&apos;s Connect
             </a>
@@ -61,14 +65,14 @@ export default function HomePage() {
 
         {/* Featured Projects Sub-Section */}
         <div>
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-violet-400 block mb-3">
+          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-violet-400 block mb-2 sm:mb-3">
             Featured Work — What I create
           </span>
-          <ul className="font-serif grid sm:grid-cols-3 gap-6 text-white/90 text-md">
+          <ul className="font-serif grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-6 text-white/90 text-xs sm:text-sm">
             {featuredProjects.map((item, index) => (
               <li
                 key={index}
-                className="flex gap-3 items-start bg-black/20 p-4 rounded-xl border border-white/5"
+                className="flex gap-2.5 items-start bg-black/30 p-3 sm:p-4 rounded-xl border border-white/5"
               >
                 <span className="text-violet-400 font-bold">0{index + 1}.</span>
                 <span>{item}</span>

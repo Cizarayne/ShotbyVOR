@@ -13,7 +13,7 @@ export default function App() {
     <div className="min-h-screen flex flex-col bg-[radial-gradient(circle_at_top_left,rgba(97,0,148,0.12),transparent_35%),linear-gradient(135deg,#ffffff_0%,#f7f3fb_100%)] text-black">
       <Header />
 
-      <main className="flex-1 flex flex-col min-h-screen">
+      <main className="flex-1 flex flex-col min-h-screen pt-24 sm:pt-20">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/projects" element={<ProjectsPage />} />
