@@ -1,0 +1,1 @@
+const BGlink = "https://c0.wallpaperflare.com/preview/707/632/24/film-equipment-tripods-slider-techlife.jpg"

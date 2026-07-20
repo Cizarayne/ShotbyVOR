@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chicle&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
+
+@font-face {
+  font-family: "Mila";
+  src: url("./assets/fonts/mila.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Fjorden";
+  src: url("./assets/fonts/fjorden-regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Vision Horizon";
+  src: url("./assets/fonts/visionhorizon-italic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Degta";
+  src: url("./assets/fonts/degta.ttf") format("truetype");
+}
+
+@theme {
+  --font-mila: "Mila", sans-serif;
+  --font-fjorden: "Fjorden", serif;
+  --font-vision: "Vision Horizon", cursive;
+  --font-degta: "Degta", sans-serif;
+  --font-uncial: "Uncial Antiqua", cursive;
+  --font-chicle: "Chicle", cursive;
+  --font-metal-mania: "Metal Mania", cursive;
+}
+
+@import "tailwindcss";
+

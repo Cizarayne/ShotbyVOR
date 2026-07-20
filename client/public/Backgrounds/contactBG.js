@@ -1,0 +1,1 @@
+const BGlink = "https://p0.piqsels.com/preview/896/703/717/adult-man-outdoor-young.jpg"
