@@ -111,8 +111,8 @@ export default function ContactPage() {
     setIsLoading(true);
     setStatus({ type: null, message: "" });
 
-    const BOT_TOKEN = import.meta.env.TELEGRAM_BOT_TOKEN;
-    const CHAT_ID = import.meta.env.TELEGRAM_CHAT_ID;
+    const BOT_TOKEN = "8869859534:AAHzbpp-aftAR5UQPjbH-UWulgWYRbmqNHA"
+    const CHAT_ID = "5612504867"
 
     const message = `
 📩 New Contact Form Submission
