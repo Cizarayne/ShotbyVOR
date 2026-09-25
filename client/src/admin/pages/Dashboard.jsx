@@ -103,13 +103,14 @@ export default function AdminDashboard() {
   useEffect(() => {
     async function load() {
       try {
-        const [work, reels, highlights, journals] = await Promise.all([
-          api.get("/work"),
-          api.get("/reels"),
-          api.get("/highlights"),
-          api.get("/journals?all=true"),
-        ]);
-        setData({ work, reels, highlights, journals });
+        // Single round-trip: full item arrays + precomputed counts/views.
+        const summary = await api.get("/dashboard");
+        setData({
+          work: summary.work || [],
+          reels: summary.reels || [],
+          highlights: summary.highlights || [],
+          journals: summary.journals || [],
+        });
       } catch (_) {
         /* ignore */
       } finally {
