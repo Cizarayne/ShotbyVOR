@@ -11,19 +11,17 @@ export function AuthProvider({ children }) {
   const login = useCallback(async (key) => {
     if (!key?.trim()) throw new Error("API key is required");
 
-    // Validate the key against a protected route: 401 = wrong key,
-    // anything else (400 empty-body rejection, 201, etc.) = key accepted.
+    // Lightweight key check — 200 {"ok":true} = valid, 401 = wrong key.
     let check;
     try {
-      check = await fetch(apiUrl("/api/work"), {
-        method: "POST",
-        headers: { "x-api-key": key, "Content-Type": "application/json" },
-        body: JSON.stringify({}),
+      check = await fetch(apiUrl("/api/auth/verify"), {
+        headers: { "x-api-key": key },
       });
     } catch {
       throw new Error("Cannot reach the server — check your connection and try again");
     }
     if (check.status === 401) throw new Error("Invalid API key");
+    if (!check.ok) throw new Error("Server unreachable — try again");
 
     sessionStorage.setItem('sbv_admin_key', key);
     setAuthed(true);

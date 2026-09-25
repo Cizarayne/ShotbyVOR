@@ -7,6 +7,7 @@ import workRouter from "./routes/work.js";
 import reelsRouter from "./routes/reels.js";
 import highlightsRouter from "./routes/highlights.js";
 import journalsRouter from "./routes/journals.js";
+import authRouter from "./routes/auth.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -33,6 +34,7 @@ app.use(
 app.use(express.json());
 
 // ── Routes ────────────────────────────────────────────────────────────────────
+app.use("/api/auth", authRouter);
 app.use("/api/work", workRouter);
 app.use("/api/reels", reelsRouter);
 app.use("/api/highlights", highlightsRouter);
