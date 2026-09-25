@@ -9,7 +9,7 @@
 export const site = {
   name: "SHOTBYVOR",
   tagline: "PHOTOGRAPHY & FILMS",
-  url: "https://shotbyvor.com",
+  url: "https://shotbyvor.vercel.app",
   description:
     "SHOTBYVOR is a creative photography and videography studio — portraits, events, weddings, concerts, commercials and cinematic reels.",
   locale: "en_US",
