@@ -87,8 +87,8 @@ button {
 ================================ */
 
 ::selection {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  background: #f5c518;
+  color: #080a0c;
 }
 
 /* ================================
