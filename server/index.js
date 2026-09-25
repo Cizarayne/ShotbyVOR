@@ -15,8 +15,11 @@ const PORT = process.env.PORT || 5000;
 // Allowed browser origins. Local dev always works; production adds whatever
 // you set as CLIENT_URL on Vercel (comma-separated if more than one, e.g.
 // "https://shotbyvor.vercel.app,https://shotbyvor.com").
+// The production client URL is also hardcoded as a fallback so CORS keeps
+// working even if the CLIENT_URL env var was never set on the server.
 const allowedOrigins = [
   "http://localhost:3000",
+  "https://shotbyvor.vercel.app",
   ...(process.env.CLIENT_URL
     ? process.env.CLIENT_URL.split(",").map((s) => s.trim()).filter(Boolean)
     : []),
