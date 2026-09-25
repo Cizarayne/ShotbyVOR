@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { toast } from 'sonner'
 import { KeyRound, Loader2, Eye, EyeOff } from 'lucide-react'
 
 export default function AdminLogin() {
@@ -18,6 +19,7 @@ export default function AdminLogin() {
     setError('')
     try {
       await login(key.trim())
+      toast.success('Welcome back! You are now logged in.')
       navigate('/admin', { replace: true })
     } catch (err) {
       setError(err.message || 'Authentication failed')

@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "sonner";
 
 // ── Public site ───────────────────────────────────────────────────────────────
 import Home from "./pages/Home";
@@ -61,6 +62,7 @@ export default function App() {
   return (
     <AuthProvider>
       <ScrollToTop />
+      <Toaster position="top-center" richColors closeButton />
       <Routes>
         {/* ── Admin routes (no Navbar/Footer) ── */}
         <Route path="/admin/login" element={<AdminLogin />} />

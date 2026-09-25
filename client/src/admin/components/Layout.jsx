@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
-import { Toaster } from "sonner";
+import { toast } from "sonner";
 import { useAuth } from "../context/AuthContext";
 import {
   LayoutDashboard,
@@ -30,6 +30,7 @@ export default function AdminLayout() {
 
   function handleLogout() {
     logout();
+    toast.success("Logged out successfully");
     navigate("/admin/login", { replace: true });
   }
 
@@ -112,7 +113,6 @@ export default function AdminLayout() {
 
   return (
     <div className="admin-shell flex h-screen overflow-hidden bg-slate-50">
-      <Toaster position="top-center" richColors closeButton />
       {/* ── Mobile overlay ────────────────────────────────────────────── */}
       {mobileOpen && (
         <div
