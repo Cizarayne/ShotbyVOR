@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Film, Image as ImageIcon, Play, X } from "lucide-react";
 import { trackView } from "../lib/trackView";
+import { apiUrl } from "../lib/apiBase";
 import { useSEO } from "../lib/useSEO";
 
 async function fetchWork() {
-  const res = await fetch("/api/work");
+  const res = await fetch(apiUrl("/api/work"));
   if (!res.ok) throw new Error("Failed to load work");
   return res.json();
 }

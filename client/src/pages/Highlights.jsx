@@ -2,12 +2,13 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { X, ChevronLeft, ChevronRight, ArrowUpRight, Play } from "lucide-react";
 import { trackView } from "../lib/trackView";
+import { apiUrl } from "../lib/apiBase";
 import { useSEO } from "../lib/useSEO";
 
 // ── Data fetching ─────────────────────────────────────────────────────────────
 
 async function fetchHighlights() {
-  const res = await fetch("/api/highlights");
+  const res = await fetch(apiUrl("/api/highlights"));
   if (!res.ok) throw new Error("Failed to load highlights");
   return res.json();
 }

@@ -10,6 +10,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { trackView } from "../lib/trackView";
+import { apiUrl } from "../lib/apiBase";
 import { useSEO } from "../lib/useSEO";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -22,7 +23,7 @@ function fmtTime(secs) {
 }
 
 async function fetchReels() {
-  const res = await fetch("/api/reels");
+  const res = await fetch(apiUrl("/api/reels"));
   if (!res.ok) throw new Error("Failed to load reels");
   return res.json();
 }

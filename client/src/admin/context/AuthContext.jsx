@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useCallback } from 'react';
+import { apiUrl } from '../../lib/apiBase';
 
 const AuthContext = createContext(null);
 
@@ -9,11 +10,11 @@ export function AuthProvider({ children }) {
 
   const login = useCallback(async (key) => {
     // Verify connectivity — health is public, enough to confirm server is up
-    const res = await fetch('/api/health', { headers: { 'x-api-key': key } });
+    const res = await fetch(apiUrl('/api/health'), { headers: { 'x-api-key': key } });
     if (!res.ok) throw new Error('Server unreachable');
 
     // Confirm the key works on a protected route
-    const check = await fetch('/api/work', {
+    const check = await fetch(apiUrl('/api/work'), {
       method: 'POST',
       headers: { 'x-api-key': key, 'Content-Type': 'application/json' },
       body: JSON.stringify({}),

@@ -15,12 +15,14 @@
 const counted = new Set();
 const inflight = new Set();
 
+import { apiUrl } from "../lib/apiBase";
+
 function flagKey(collection, id) {
   return `sv:view:${collection}:${id}`;
 }
 
 function postView(collection, id) {
-  return fetch(`/api/${collection}/${id}/view`, { method: "POST" });
+  return fetch(apiUrl(`/api/${collection}/${id}/view`), { method: "POST" });
 }
 
 export function trackView(collection, id, { repeatable = false } = {}) {

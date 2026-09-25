@@ -1,4 +1,6 @@
-const BASE = '/api';
+import { apiUrl } from "../../lib/apiBase";
+
+const BASE = apiUrl("/api");
 
 function getKey() {
   return sessionStorage.getItem('sbv_admin_key') || '';

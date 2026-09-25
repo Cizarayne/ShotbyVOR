@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, CalendarDays, Tag } from "lucide-react";
 import { trackView } from "../lib/trackView";
+import { apiUrl } from "../lib/apiBase";
 import { useSEO } from "../lib/useSEO";
 
 export default function JournalDetail() {
@@ -24,7 +25,7 @@ export default function JournalDetail() {
   });
 
   useEffect(() => {
-    fetch(`/api/journals/${id}`)
+    fetch(apiUrl(`/api/journals/${id}`))
       .then((res) => {
         if (!res.ok) throw new Error("Journal not found");
         return res.json();

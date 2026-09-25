@@ -12,9 +12,18 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ── Middleware ────────────────────────────────────────────────────────────────
+// Allowed browser origins. Local dev always works; production adds whatever
+// you set as CLIENT_URL on Vercel (comma-separated if more than one, e.g.
+// "https://shotbyvor.vercel.app,https://shotbyvor.com").
+const allowedOrigins = [
+  "http://localhost:3000",
+  ...(process.env.CLIENT_URL
+    ? process.env.CLIENT_URL.split(",").map((s) => s.trim()).filter(Boolean)
+    : []),
+];
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: allowedOrigins,
     credentials: true,
   }),
 );

@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowUpRight, CalendarDays, Tag, Play } from "lucide-react";
+import { apiUrl } from "../lib/apiBase";
 import { useSEO } from "../lib/useSEO";
 
 async function fetchJournals() {
-  const res = await fetch("/api/journals");
+  const res = await fetch(apiUrl("/api/journals"));
   if (!res.ok) throw new Error("Failed to load journals");
   return res.json();
 }
