@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
-import { mountToaster } from "gooey-toast";
-import "gooey-toast/styles.css";
+import { Toaster } from "sonner";
 import { useAuth } from "../context/AuthContext";
 import {
   LayoutDashboard,
@@ -28,17 +27,6 @@ export default function AdminLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { logout } = useAuth();
   const navigate = useNavigate();
-
-  // Mount gooey-toast on component mount
-  useEffect(() => {
-    const toaster = mountToaster({
-      position: "top-center",
-      preset: "snappy",
-      showProgress: true,
-    });
-
-    return () => toaster.unmount();
-  }, []);
 
   function handleLogout() {
     logout();
@@ -124,6 +112,7 @@ export default function AdminLayout() {
 
   return (
     <div className="admin-shell flex h-screen overflow-hidden bg-slate-50">
+      <Toaster position="top-center" richColors closeButton />
       {/* ── Mobile overlay ────────────────────────────────────────────── */}
       {mobileOpen && (
         <div

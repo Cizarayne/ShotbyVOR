@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { gooeyToast } from "gooey-toast";
+import { toast } from "sonner";
 import {
   BookOpen,
   Plus,
@@ -26,7 +26,7 @@ export default function AdminJournals() {
     try {
       setItems(await api.get("/journals?all=true"));
     } catch (err) {
-      gooeyToast.error(err.message, { preset: 'snappy', showProgress: true });
+      toast.error(err.message);
     } finally {
       setLoading(false);
     }
@@ -39,11 +39,11 @@ export default function AdminJournals() {
   async function handleDelete() {
     try {
       await api.delete(`/journals/${deleteTarget}`);
-      gooeyToast.success("Journal deleted");
+      toast.success("Journal deleted");
       setDeleteTarget(null);
       load();
     } catch (err) {
-      gooeyToast.error(err.message, { preset: 'snappy', showProgress: true });
+      toast.error(err.message);
     }
   }
 
@@ -58,7 +58,7 @@ export default function AdminJournals() {
       await api.patch(`/journals/${item._id}`, fd, true);
       load();
     } catch (err) {
-      gooeyToast.error(err.message, { preset: 'snappy', showProgress: true });
+      toast.error(err.message);
     }
   }
 

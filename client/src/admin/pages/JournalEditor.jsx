@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
-import { gooeyToast } from "gooey-toast";
+import { toast } from "sonner";
 import {
   BookOpen,
   Save,
@@ -110,7 +110,7 @@ export default function AdminJournalEditor() {
         setExistingCover(data.coverUrl || "");
         setExistingCoverType(data.coverType === "video" ? "video" : "image");
       })
-      .catch((err) => gooeyToast.error(err.message, { preset: 'snappy', showProgress: true }))
+      .catch((err) => toast.error(err.message))
       .finally(() => setLoading(false));
   }, [id, isEdit, reset]);
 
@@ -134,7 +134,7 @@ export default function AdminJournalEditor() {
     const s = SAMPLES[Math.floor(Math.random() * SAMPLES.length)];
     reset({ ...s, tags: [...s.tags] });
     setPreview(false);
-    gooeyToast.success("Journal autofilled — tweak it before saving");
+    toast.success("Journal autofilled — tweak it before saving");
   }
 
   async function onSubmit(data) {
@@ -149,14 +149,14 @@ export default function AdminJournalEditor() {
 
       if (isEdit) {
         await api.patch(`/journals/${id}`, fd, true);
-        gooeyToast.success("Journal saved");
+        toast.success("Journal saved");
       } else {
         await api.post("/journals", fd, true);
-        gooeyToast.success("Journal created");
+        toast.success("Journal created");
         setTimeout(() => navigate("/admin/journals"), 1000);
       }
     } catch (err) {
-      gooeyToast.error(err.message, { preset: 'snappy', showProgress: true });
+      toast.error(err.message);
     }
   }
 

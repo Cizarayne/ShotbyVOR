@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { gooeyToast } from "gooey-toast";
+import { toast } from "sonner";
 import {
   Film,
   Plus,
@@ -85,7 +85,7 @@ export default function AdminReels() {
     try {
       setItems(await api.get("/reels"));
     } catch (err) {
-      gooeyToast.error(err.message, { preset: "snappy", showProgress: true });
+      toast.error(err.message);
     } finally {
       setLoading(false);
     }
@@ -126,40 +126,40 @@ export default function AdminReels() {
   function autofill() {
     const s = SAMPLES[Math.floor(Math.random() * SAMPLES.length)];
     reset({ ...s });
-    gooeyToast.success("Form autofilled — tweak anything you don't like");
+    toast.success("Form autofilled — tweak anything you don't like");
   }
 
   async function onSubmit(data) {
     if (!editId && !file) {
-      gooeyToast.error("Please select a video file");
+      toast.error("Please select a video file");
       return;
     }
     try {
       if (editId) {
         await api.patch(`/reels/${editId}`, data);
-        gooeyToast.success("Reel updated");
+        toast.success("Reel updated");
       } else {
         const fd = new FormData();
         fd.append("file", file);
         Object.entries(data).forEach(([k, v]) => fd.append(k, String(v)));
         await api.post("/reels", fd, true);
-        gooeyToast.success("Reel uploaded");
+        toast.success("Reel uploaded");
       }
       resetForm();
       load();
     } catch (err) {
-      gooeyToast.error(err.message, { preset: "snappy", showProgress: true });
+      toast.error(err.message);
     }
   }
 
   async function handleDelete() {
     try {
       await api.delete(`/reels/${deleteTarget}`);
-      gooeyToast.success("Reel deleted");
+      toast.success("Reel deleted");
       setDeleteTarget(null);
       load();
     } catch (err) {
-      gooeyToast.error(err.message, { preset: "snappy", showProgress: true });
+      toast.error(err.message);
     }
   }
 
@@ -171,7 +171,7 @@ export default function AdminReels() {
       });
       load();
     } catch (err) {
-      gooeyToast.error(err.message, { preset: "snappy", showProgress: true });
+      toast.error(err.message);
     }
   }
 
