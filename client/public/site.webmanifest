@@ -1,0 +1,16 @@
+{
+  "name": "SHOTBYVOR — Photography & Films",
+  "short_name": "SHOTBYVOR",
+  "description": "Creative photography and videography studio — portraits, events, weddings, concerts, commercials and cinematic reels.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080a0c",
+  "theme_color": "#080a0c",
+  "icons": [
+    {
+      "src": "/shotbyvor-logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
