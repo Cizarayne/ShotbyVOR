@@ -139,10 +139,42 @@ export default function AdminReels() {
         await api.patch(`/reels/${editId}`, data);
         toast.success("Reel updated");
       } else {
-        const fd = new FormData();
-        fd.append("file", file);
-        Object.entries(data).forEach(([k, v]) => fd.append(k, String(v)));
-        await api.post("/reels", fd, true);
+        // Step 1 — get a short-lived Cloudinary signature from our server.
+        // This is a tiny JSON request (no file), so it never hits the 4.5 MB
+        // Vercel body limit.
+        const sig = await api.get("/reels/sign-upload");
+
+        // Step 2 — POST the file directly to Cloudinary's upload API.
+        // The file goes straight from the browser to Cloudinary; our server
+        // is not in the data path at all.
+        const cloudForm = new FormData();
+        cloudForm.append("file", file);
+        cloudForm.append("api_key", sig.apiKey);
+        cloudForm.append("timestamp", sig.timestamp);
+        cloudForm.append("signature", sig.signature);
+        cloudForm.append("folder", sig.folder);
+        cloudForm.append("resource_type", "video");
+
+        const cloudRes = await fetch(
+          `https://api.cloudinary.com/v1_1/${sig.cloudName}/video/upload`,
+          { method: "POST", body: cloudForm },
+        );
+        if (!cloudRes.ok) {
+          const err = await cloudRes.json().catch(() => ({}));
+          throw new Error(
+            err.error?.message ||
+              `Cloudinary upload failed (${cloudRes.status})`,
+          );
+        }
+        const cloudData = await cloudRes.json();
+
+        // Step 3 — save the metadata (URL, public_id, etc.) to our database.
+        // Still just a small JSON body — no file involved.
+        await api.post("/reels/from-url", {
+          videoUrl: cloudData.secure_url,
+          cloudinaryId: cloudData.public_id,
+          ...data,
+        });
         toast.success("Reel uploaded");
       }
       resetForm();
