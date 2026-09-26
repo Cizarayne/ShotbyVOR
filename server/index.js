@@ -34,6 +34,29 @@ app.use(
 );
 app.use(express.json());
 
+// ── Health check ──────────────────────────────────────────────────────────────
+// Registered before the database gate below so it always answers, even when
+// MongoDB is unreachable.
+app.get("/api/health", (_req, res) => {
+  res.json({ status: "ok", time: new Date().toISOString() });
+});
+
+// ── Database gate ─────────────────────────────────────────────────────────────
+// Runs after cors() on purpose: cors() has already attached the CORS headers,
+// so if MongoDB is unreachable the failure is returned as a normal JSON error
+// *with* those headers. Without this gate a dead or slow connection can take
+// the whole invocation down, and Vercel's own error/timeout pages carry no CORS
+// headers — the browser then blames CORS instead of showing the real problem.
+app.use((_req, _res, next) => {
+  connectDatabase().then(
+    () => next(),
+    (err) => {
+      err.status = err.status || 503;
+      next(err);
+    },
+  );
+});
+
 // ── Routes ────────────────────────────────────────────────────────────────────
 app.use("/api/auth", authRouter);
 app.use("/api/dashboard", dashboardRouter);
@@ -41,11 +64,6 @@ app.use("/api/work", workRouter);
 app.use("/api/reels", reelsRouter);
 app.use("/api/highlights", highlightsRouter);
 app.use("/api/journals", journalsRouter);
-
-// ── Health check ──────────────────────────────────────────────────────────────
-app.get("/api/health", (_req, res) => {
-  res.json({ status: "ok", time: new Date().toISOString() });
-});
 
 // ── Global error handler ──────────────────────────────────────────────────────
 app.use((err, _req, res, _next) => {
@@ -56,17 +74,28 @@ app.use((err, _req, res, _next) => {
 });
 
 // ── Connect DB then start ─────────────────────────────────────────────────────
-const startServer = async () => {
-  try {
-    await connectDatabase();
+// On Vercel serverless there is no long-lived process to listen() on — the
+// platform invokes the exported app per request. Only listen locally.
+const startServer = () => {
+  // Kick off the connection at boot for early feedback, but never block on it:
+  // awaiting it at module scope would delay (or, past Vercel's function timeout,
+  // kill) the very first request. Failures are surfaced per request by the
+  // database gate above, as JSON errors that keep their CORS headers.
+  connectDatabase().catch((error) => {
+    console.error(
+      "❌ Database connection failed at startup (will retry on next request):",
+      error.message,
+    );
+  });
 
+  if (!process.env.VERCEL) {
     app.listen(PORT, () => {
       console.log(`🚀 Server running on http://localhost:${PORT}`);
     });
-  } catch (error) {
-    console.error("❌ Failed to start server:", error);
-    process.exit(1);
   }
 };
 
 startServer();
+
+// Vercel serverless entry — `server/api/index.js` re-exports this.
+export default app;
