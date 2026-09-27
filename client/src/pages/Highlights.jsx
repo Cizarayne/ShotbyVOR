@@ -383,17 +383,6 @@ function GridCard({ item, onOpen }) {
             </span>
           )}
         </div>
-
-        <button
-          type="button"
-          className="mt-5 flex w-full items-center justify-center rounded-full bg-white px-5 py-3.5 text-sm font-semibold text-[#17201d] transition hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-[#101a18]"
-          onClick={(event) => {
-            event.stopPropagation();
-            onOpen(item);
-          }}
-        >
-          Reserve now
-        </button>
       </div>
     </motion.article>
   );
