@@ -147,10 +147,42 @@ export default function AdminWork() {
         await api.patch(`/work/${editId}`, data);
         toast.success("Item updated");
       } else {
-        const fd = new FormData();
-        fd.append("file", file);
-        Object.entries(data).forEach(([k, v]) => fd.append(k, String(v)));
-        await api.post("/work", fd, true);
+        const resourceType = file.type.startsWith("video/")
+          ? "video"
+          : file.type.startsWith("image/")
+            ? "image"
+            : null;
+        if (!resourceType) {
+          throw new Error("Choose an image or video file");
+        }
+
+        const sig = await api.get("/work/sign-upload");
+        const cloudForm = new FormData();
+        cloudForm.append("file", file);
+        cloudForm.append("api_key", sig.apiKey);
+        cloudForm.append("timestamp", sig.timestamp);
+        cloudForm.append("signature", sig.signature);
+        cloudForm.append("folder", sig.folder);
+
+        const cloudRes = await fetch(
+          `https://api.cloudinary.com/v1_1/${sig.cloudName}/${resourceType}/upload`,
+          { method: "POST", body: cloudForm },
+        );
+        if (!cloudRes.ok) {
+          const err = await cloudRes.json().catch(() => ({}));
+          throw new Error(
+            err.error?.message ||
+              `Cloudinary upload failed (${cloudRes.status})`,
+          );
+        }
+        const cloudData = await cloudRes.json();
+
+        await api.post("/work/from-url", {
+          ...data,
+          mediaUrl: cloudData.secure_url,
+          mediaType: resourceType,
+          cloudinaryId: cloudData.public_id,
+        });
         toast.success("Uploaded successfully");
       }
       resetForm();
@@ -374,7 +406,10 @@ export default function AdminWork() {
                     </span>
                     <span className="pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity duration-300 group-hover:opacity-0">
                       <span className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center">
-                        <Play className="w-5 h-5 text-white" fill="currentColor" />
+                        <Play
+                          className="w-5 h-5 text-white"
+                          fill="currentColor"
+                        />
                       </span>
                     </span>
                   </>

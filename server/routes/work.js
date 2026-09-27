@@ -22,6 +22,67 @@ router.get("/", async (_req, res, next) => {
   }
 });
 
+// ── Signed upload — admin only ────────────────────────────────────────────────
+router.get("/sign-upload", requireApiKey, (_req, res) => {
+  const timestamp = Math.round(Date.now() / 1000);
+  const folder = "shotbyvor/work";
+  const signature = cloudinary.utils.api_sign_request(
+    { folder, timestamp },
+    cloudinary.config().api_secret,
+  );
+  const config = cloudinary.config();
+
+  res.json({
+    signature,
+    timestamp,
+    folder,
+    apiKey: config.api_key,
+    cloudName: config.cloud_name,
+  });
+});
+
+// ── Save after direct upload — admin only ─────────────────────────────────────
+router.post("/from-url", requireApiKey, async (req, res, next) => {
+  try {
+    const {
+      mediaUrl,
+      cloudinaryId,
+      mediaType,
+      title,
+      category,
+      description,
+      featured,
+      order,
+    } = req.body;
+
+    if (!mediaUrl || !cloudinaryId || !title) {
+      return res
+        .status(400)
+        .json({ error: "mediaUrl, cloudinaryId, and title are required" });
+    }
+    if (!["image", "video"].includes(mediaType)) {
+      return res
+        .status(400)
+        .json({ error: "mediaType must be image or video" });
+    }
+
+    const item = await Work.create({
+      title,
+      category,
+      description,
+      featured: featured === true || featured === "true",
+      order: Number(order) || 0,
+      mediaUrl,
+      mediaType,
+      cloudinaryId,
+    });
+
+    res.status(201).json(item);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get("/:id", async (req, res, next) => {
   try {
     const item = await Work.findById(req.params.id);
