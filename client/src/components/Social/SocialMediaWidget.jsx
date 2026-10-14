@@ -3,13 +3,16 @@ import {
   InstagramIcon,
   TiktokIcon,
   YoutubeIcon,
-} from "../SocialIcons";
+  WhatsappIcon,
+} from "../SocialBrandIcons";
+import { site, socialTarget } from "../../lib/site";
 
 const socials = [
-  { icon: InstagramIcon, label: "Instagram", href: "#" },
-  { icon: YoutubeIcon, label: "YouTube", href: "#" },
-  { icon: TiktokIcon, label: "TikTok", href: "#" },
-  { icon: FacebookIcon, label: "Facebook", href: "#" },
+  { icon: WhatsappIcon, label: "WhatsApp", href: site.social.whatsapp },
+  { icon: InstagramIcon, label: "Instagram", href: site.social.instagram },
+  { icon: TiktokIcon, label: "TikTok", href: site.social.tiktok },
+  { icon: YoutubeIcon, label: "YouTube", href: site.social.youtube },
+  { icon: FacebookIcon, label: "Facebook", href: site.social.facebook },
 ];
 
 export default function SocialMediaWidget() {
@@ -24,10 +27,11 @@ export default function SocialMediaWidget() {
           <a
             key={label}
             href={href}
+            {...socialTarget(href)}
             aria-label={label}
             className="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/4 text-white/50 transition hover:bg-white/10 hover:text-white"
           >
-            <Icon size={18} className="text-current" />
+            <Icon className="h-5 w-5 text-current" />
           </a>
         ))}
       </div>

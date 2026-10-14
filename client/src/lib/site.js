@@ -14,10 +14,11 @@ export const site = {
     "SHOTBYVOR is a creative photography and videography studio — portraits, events, weddings, concerts, commercials and cinematic reels.",
   locale: "en_US",
   social: {
-    instagram: "#", // e.g. "https://instagram.com/shotbyvor"
-    youtube: "#", // e.g. "https://youtube.com/@shotbyvor"
-    facebook: "#", // e.g. "https://facebook.com/shotbyvor"
-    tiktok: "#", // e.g. "https://tiktok.com/@shotbyvor"
+    whatsapp: "https://wa.me/+2348106971871",
+    instagram: "https://instagram.com/shotbyvor_",
+    tiktok: "https://tiktok.com/@shotbyvor",
+    youtube: "https://youtube.com/@shotbyvor",
+    facebook: "https://facebook.com/shotbyvor",
   },
 };
 

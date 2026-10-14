@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@thesvg/react": "^3.3.14",
     "framer-motion": "^13.4.0",
     "lucide-react": "^0.439.0",
     "motion": "^10.16.4",
